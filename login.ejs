@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Easy Forms !</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
+
+</head>
+<body>
+
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Easy Forms</a>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="card col-md-4 offset-md-1">
+                <h2>Login</h2>
+                <form id="loginForm" method="POST" action="/login">
+                    <input type="text" placeholder="Username" name="username" class="form-control" id="login-username" required="true"><br>
+                    <input type="password" placeholder="Password" name="password" class="form-control" id="login-password" required="true"><br>
+                    <button type="submit" class="btn btn-success" >Login</button>
+                </form>
+				<p class="text-danger"><%= loginmsg %></p>
+            </div>
+
+            <div class="card col-md-4 offset-md-2">
+                <h2>Register</h2>
+                <form id="registerForm" method="POST" action="/register">
+                    <input type="text" placeholder="Name" class="form-control" name="name" id="register-name" required="true"><br>
+                    <input type="text" placeholder="Username" class="form-control" name="username" id="register-username"  required="true"><br>
+                    <input type="password" placeholder="Password" class="form-control" name="password" id="register-password" required="true"><br>
+                    <button type="submit" class="btn btn-success">Register</button>
+                </form>
+                <p class="text-danger"><%= regmsg %></p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+</html>

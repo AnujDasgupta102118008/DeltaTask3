@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="shortcut icon" type="image/png" href="../favicon.png" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar bg-dark navbar-dark">
+		<a class="navbar-brand" href="#">Easy Forms</a>
+		<form method="GET" action="/checkres">
+		<button type="submit" class="btn btn-primary" >Check Responses</button>
+		</form>
+		<form method="GET" action="/logout">
+		<button type="submit" class="btn btn-danger" >Logout</button>
+		</form>
+		</nav>
+
+	<div class="container-fluid">
+        <div class="row mt-5">
+            <div class="card col-md-4 offset-md-1">
+                Please assign Title and Description to your new form <br /><br />
+				Caution : Title and desc once added cannot be changed <br />
+                <br />
+                <form id="myform" method="POST" action="/addtitle">
+                    <input type="text" name="title" placeholder="Title" id="title" /><br /><br />
+                    <textarea rows="5" cols="10" type="text" name="desc" placeholder="Description" id="desc"></textarea><br /><br />
+                    <button type="submit" class="btn btn-success" name="myButton"/>Submit</button>
+                </form>
+                <p><%= titlemsg %></p>
+                
+            </div>
+
+            <div class="card col-md-4 offset-md-1">
+                Your form has the Title : <%= title %> <br />
+                Your form has the description : <%= desc %> <br /><br />
+                
+				
+            </div>
+        </div>
+	</div>
+</body>
+</html>
