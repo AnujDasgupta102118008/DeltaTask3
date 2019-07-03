@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Login</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="  https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<nav class="navbar bg-dark navbar-dark">
-		<a class="navbar-brand" href="#">Easy Forms</a>
-		<form method="GET" action="/checkres">
-		<button type="submit" class="btn btn-primary" >Check Responses</button>
-		</form>
-		<form method="GET" action="/logout">
-		<button type="submit" class="btn btn-danger" >Logout</button>
-		</form>
-	</nav>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.3"></script>
+    <nav class="navbar bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Easy Forms</a>
+        <form method="GET" action="/checkres">
+            <button type="submit" class="btn btn-primary">Check Responses</button>
+        </form>
+        <form method="GET" action="/logout">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </nav>
 
-	<div class="container-fluid">
+    <div class="container-fluid">
         <div class="row mt-5">
-           <div class="card col-md-4 offset-md-1">
+            <div class="card col-md-4 offset-md-1">
                 <p><%= titlemsg %></p>
                 You can add input fields for your form below....<br />
                 <form method="POST" action="/adding">
@@ -43,14 +45,19 @@
                         <%= inp.Fields %>
                         <%});%>
                 </ol>
-				Click below to finalize the form and to generate a link to the form 
-				<form method="GET" action="/generate">
-				<button type="submit" class="btn btn-success">Finalize</button><br />
-				</form><br /><br />
-				
+                Click below to finalize the form and to generate a link to the form
+                <form method="GET" action="/generate">
+                    <button type="submit" class="btn btn-success">Finalize</button><br />
+                </form><br /><br />
             </div><br /><br />
-			<p style="margin :auto;"><a href="<%= url %>" class="btn btn-primary" role="button"><%= urlmsg %></a></p>
+        </div><br /><br /><br />
+		<div style="text-align:center;">
+            <p style="margin :auto;"><a href="<%= url %>" class="btn btn-primary" role="button"><%= urlmsg %></a></p>
+			<br /><h4> Now Share on Social Media !!</h4> 
+            <br /><p style="margin :auto;"><a href=""<%= tweet %>" class="twitter-share-button" data-show-count="false">Tweet</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/share-button/" data-layout="button" data-size="small"><a target="_blank" href="<% fb %>" class="fb-xfbml-parse-ignore">Share</a></div>
         </div>
-	</div>
+    </div>
 </body>
 </html>
