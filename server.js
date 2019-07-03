@@ -1,24 +1,27 @@
-var express = require('express');
-var app = express();
-var sqlite3 = require('sqlite3');
-var port = 3000;
-var passwordHash = require('password-hash');
-var cookieParser = require('cookie-parser');
+var express = require('express'); // using express for endpoints
+var app = express();  // creating express object
+var sqlite3 = require('sqlite3');  //sqlite3 for db
+var port = 3000;  // listening port
+var passwordHash = require('password-hash'); // to hash password for secure storage
+var cookieParser = require('cookie-parser');  // to manage cookies
 app.use(cookieParser());
-app.set("view engine", "ejs");
+app.set("view engine", "ejs");   // setting view engine to EJS
 app.set("views", __dirname + "/views");
 app.set("view options", { layout: false });
-var db = new sqlite3.Database('formmanager.db');
-var bodyParser = require('body-parser');
+var db = new sqlite3.Database('formmanager.db'); // new db
+var bodyParser = require('body-parser');  // to read and manipulate urls
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Login/Register page at localhost:3000/
 app.get('/', function (req, res) {
-    res.render('login', { loginmsg: "", regmsg: "" });
+    res.render('login', { loginmsg: "", regmsg: "" });               
 });
+
 // Enabling server to listen at port 3000
 app.listen(port, function () {
     console.log("Listening on port " + port);
 });
+
 var title, descrip;
 // Enabling CORS
 app.use(function (req, res, next) {
@@ -26,7 +29,9 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
 var user;
+
 // Registering new users
 app.post('/register', function (req, res) {
     console.log("new user " + req.body.username);
@@ -49,7 +54,6 @@ app.post('/register', function (req, res) {
                         user = req.body.username;
                         res.cookie("username", user);
                         res.render('makeform', { titlemsg: "", inpfields: [], title: "", desc: ""});
-                       // afterlogin(req, res);
                     }
                 });
             }
@@ -89,7 +93,7 @@ app.post('/addtitle', function (req, res) {
             res.cookie("desc", req.body.desc);
             title = req.body.title;
             descrip = req.body.desc;
-            res.render('makeformbody', { inpmsg : "", titlemsg: "Title and Desc added ", url: "", urlmsg: "Your link will come here", inpfields: [], title: title, desc: descrip });
+            res.render('makeformbody', { fb:"",tweet:"",inpmsg : "", titlemsg: "Title and Desc added ", url: "", urlmsg: "Your link will come here", inpfields: [], title: title, desc: descrip });
         }
     });
 });
@@ -110,33 +114,34 @@ app.post('/adding', function (req,res) {
                 else {
                     // list = rows;
                     console.log(rows);
-                    res.render('makeformbody', { inpmsg: "Field added", titlemsg: "", urlmsg:"Your link will come here",inpfields: rows, title: title, desc: descrip ,url:""});
+                    res.render('makeformbody', { fb: "",tweet:"",inpmsg: "Field added", titlemsg: "", urlmsg:"Your link will come here",inpfields: rows, title: title, desc: descrip ,url:""});
                 }
             });
         }
     });
 });
 var ctr = 0;
-// Logout function
-app.get("/logout", function (req, res) {
-    res.render('login', { loginmsg: "", regmsg: "" });
-    res.clearCookie("title");
-    res.clearCookie("desc");
-    res.clearCookie("username");
-});
-// Link generator
+// Share Link generator
 app.get("/generate", function (req,res) {
     let baseurl = " http://localhost:3000/";
     baseurl = baseurl.concat(user, "/");
     baseurl = baseurl.concat(title, "/");
-    if(title && user)
-    res.render('makeformbody', { inpmsg: "", titlemsg: "", urlmsg: baseurl ,inpfields: [], title: title, desc: descrip, url: baseurl });
+    var turl = "https://twitter.com/intent/tweet?text=";
+    var fburl = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flocalhost%3A3000%2F";
+    fburl = fburl.concat(user, "%2F", title);
+    console.log(fburl);
+    turl = turl.concat(baseurl);
+    if (title && user) {
+        res.render('makeformbody', { fb:fburl,tweet:turl,inpmsg: "", titlemsg: "", urlmsg: baseurl, inpfields: [], title: title, desc: descrip, url: baseurl });
+    }
 })
+// Get request for addtitle page
 app.get("/addtitle", function (req, res) {
-    res.render('makeformbody', { inpmsg: "", titlemsg: "", urlmsg: "Your link will come here", inpfields: [], title: title, desc: descrip, url: "" });
+    res.render('makeformbody', { fb: "",tweet:"",inpmsg: "", titlemsg: "", urlmsg: "Your link will come here", inpfields: [], title: title, desc: descrip, url: "" });
 })
 var description;
 var form = [];
+// Form link handler
 app.get("/:user/:title", function (req, res) {
     console.log("link user "+req.params.user);
     console.log("link title " + req.params.title);
@@ -198,11 +203,12 @@ app.post("/respost", function (req, res) {
         }
     });
 });
-// For user to check responses
+// Check responses button
 app.get('/checkres', function (req, res) {
     res.render('responses', { fields:[],formres: [], title: "", titlemsg: "" });
     
 });
+// For user to check responses
 app.post('/checkres', function (req, res) {
     var inp=[];
     db.all('SELECT Resp from response where Username=$un AND Title=$title', { $un: user, $title: req.body.title }, function (err, rows) {
@@ -231,6 +237,14 @@ app.post('/checkres', function (req, res) {
         }
     });
 });
+// Home button handler
 app.get('/home', function (req, res) {
     res.render('makeform', { titlemsg: "", inpfields: [], title: "", desc: "" });
+});
+// Logout function
+app.get("/logout", function (req, res) {
+    res.render('login', { loginmsg: "", regmsg: "" });
+    res.clearCookie("title");
+    res.clearCookie("desc");
+    res.clearCookie("username");
 });
